@@ -13,7 +13,7 @@ interface Props {
     isAuthorized?: boolean;
 }
 
-const AppBar: React.FC<Props> = ({ isAuthorized }) => {
+const Header: React.FC<Props> = ({ isAuthorized }) => {
   const content = useMemo(() => {
     return (
       <div className="flex justify-between w-full">
@@ -41,4 +41,4 @@ const AppBar: React.FC<Props> = ({ isAuthorized }) => {
   )
 }
 
-export default AppBar
+export default Header;
