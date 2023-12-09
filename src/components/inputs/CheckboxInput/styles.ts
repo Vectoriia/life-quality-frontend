@@ -1,4 +1,9 @@
-import { buttonBaseClasses, checkboxClasses, formControlLabelClasses } from '@mui/material';
+'use client';
+import {
+  buttonBaseClasses,
+  checkboxClasses,
+  formControlLabelClasses,
+} from '@mui/material';
 
 import { theme } from '@/constants';
 

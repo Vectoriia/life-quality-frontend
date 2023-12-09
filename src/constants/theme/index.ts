@@ -1,27 +1,27 @@
-'use client'
+'use client';
 
 import { stepLabelClasses, outlinedInputClasses } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 
 export const fontFamily = [
-  "Circular Std",
-  'ui-sans-serif', 
-  'system-ui', 
-  '-apple-system', 
-  'BlinkMacSystemFont', 
-  "Segoe UI", 
-  'Roboto', 
-  "Helvetica Neue", 
-  'Arial', 
-  "Noto Sans", 
-  'sans-serif', 
-  "Apple Color Emoji", 
-  "Segoe UI Emoji", 
-  "Segoe UI Symbol", 
-  "Noto Color Emoji", 
-  '"Inter"', 
-  'Inter'
-].join(", ");
+  'Circular Std',
+  'ui-sans-serif',
+  'system-ui',
+  '-apple-system',
+  'BlinkMacSystemFont',
+  'Segoe UI',
+  'Roboto',
+  'Helvetica Neue',
+  'Arial',
+  'Noto Sans',
+  'sans-serif',
+  'Apple Color Emoji',
+  'Segoe UI Emoji',
+  'Segoe UI Symbol',
+  'Noto Color Emoji',
+  '"Inter"',
+  'Inter',
+].join(', ');
 
 export const theme = createTheme({
   breakpoints: {
