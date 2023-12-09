@@ -10,24 +10,27 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiChat4Line } from "react-icons/ri";
 
 interface Props {
+    isAuthorized?: boolean;
 }
 
-const AppBar: React.FC<Props> = ({ }) => {
+const Header: React.FC<Props> = ({ isAuthorized }) => {
   const content = useMemo(() => {
     return (
       <div className="flex justify-between w-full">
         <Typography variant="h3" className="text-white">Якість життя</Typography>
-        <div className="flex gap-4 items-center">
-            <RiChat4Line size={24} className="shrink-0"/>
-            <IoMdNotificationsOutline size={24} className="shrink-0" />
-            <div className="flex flex-col justify-center items-center">
-                <RiAccountCircleLine size={24} className="shrink-0" />
-                <Typography className="text-white" variant="subtitle1">Акаунт</Typography>
+        {isAuthorized && (
+            <div className="flex gap-4 items-center">
+                <RiChat4Line size={24} className="shrink-0"/>
+                <IoMdNotificationsOutline size={24} className="shrink-0" />
+                <div className="flex flex-col justify-center items-center">
+                    <RiAccountCircleLine size={24} className="shrink-0" />
+                    <Typography className="text-white" variant="subtitle1">Акаунт</Typography>
+                </div>
             </div>
-        </div>
+        )}
       </div>
     )
-  }, []);
+  }, [isAuthorized]);
 
   return (
     <MuiAppBar className={clsx(
@@ -38,4 +41,4 @@ const AppBar: React.FC<Props> = ({ }) => {
   )
 }
 
-export default AppBar
+export default Header;
