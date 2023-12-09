@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { InputAdornment, IconButton, TextField } from '@mui/material';
 
 import { IoIosCheckmarkCircle } from 'react-icons/io';

@@ -1,3 +1,4 @@
+'use client';
 import { buttonBaseClasses, svgIconClasses } from '@mui/material';
 
 import { theme } from '@/constants';
@@ -36,15 +37,23 @@ const styles = {
     backgroundColor: 'transparent',
     transition: 'width 1s ease-in-out, height 1s ease-in-out',
     width: isImageOffsets
-      ? theme.spacing(avatarSizesMapping[size].size - avatarSizesMapping[size].padding * 2) //*2 to count padding from to sides
+      ? theme.spacing(
+          avatarSizesMapping[size].size - avatarSizesMapping[size].padding * 2
+        ) //*2 to count padding from to sides
       : theme.spacing(avatarSizesMapping[size].size),
     height: isImageOffsets
-      ? theme.spacing(avatarSizesMapping[size].size - avatarSizesMapping[size].padding * 2) //*2 to count padding from to sides
+      ? theme.spacing(
+          avatarSizesMapping[size].size - avatarSizesMapping[size].padding * 2
+        ) //*2 to count padding from to sides
       : theme.spacing(avatarSizesMapping[size].size),
     [`& .${svgIconClasses.root}`]: {
       transition: 'width 1s ease-in-out, height 1s ease-in-out',
-      width: theme.spacing(avatarSizesMapping[size].size - avatarSizesMapping[size].padding * 2),
-      height: theme.spacing(avatarSizesMapping[size].size - avatarSizesMapping[size].padding * 2),
+      width: theme.spacing(
+        avatarSizesMapping[size].size - avatarSizesMapping[size].padding * 2
+      ),
+      height: theme.spacing(
+        avatarSizesMapping[size].size - avatarSizesMapping[size].padding * 2
+      ),
       color: theme.palette.common.black,
     },
   }),
