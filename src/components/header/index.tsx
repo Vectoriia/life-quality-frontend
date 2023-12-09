@@ -8,12 +8,15 @@ import { useMemo } from 'react';
 import { RiAccountCircleLine } from "react-icons/ri";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiChat4Line } from "react-icons/ri";
+import Drawer from '../drawer';
+import { usePathname } from 'next/navigation';
 
 interface Props {
     isAuthorized?: boolean;
 }
 
 const Header: React.FC<Props> = ({ isAuthorized }) => {
+  const path = usePathname();
   const content = useMemo(() => {
     return (
       <div className="flex justify-between w-full">
@@ -33,11 +36,14 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
   }, [isAuthorized]);
 
   return (
-    <MuiAppBar className={clsx(
-      'flex flex-row h-[70px] py-[10px] px-4 items-center justify-between',
-    )}>
-      {content}
-    </MuiAppBar>
+    <>
+      <MuiAppBar className={clsx(
+        'flex flex-row h-[70px] py-[10px] px-4 items-center justify-between',
+      )}>
+        {content}
+      </MuiAppBar>
+      <Drawer isPermanent={path == '/patients' || path == '/analysis'} />
+    </>
   )
 }
 

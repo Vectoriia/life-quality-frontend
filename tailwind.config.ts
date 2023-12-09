@@ -6,7 +6,13 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        background: '#EEF4F9',
+        green: '#63A033',
+        blue: '#356AC3',
+      }
+    },
   },
   corePlugins: {
     preflight: false,
