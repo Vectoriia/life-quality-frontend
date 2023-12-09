@@ -1,6 +1,6 @@
 'use client';
 
-import { theme } from '@/src/constants/theme';
+import { theme } from '@/constants/theme';
 import { ThemeProvider } from '@emotion/react';
 
 export default function ThemeClient({
