@@ -10,6 +10,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiChat4Line } from "react-icons/ri";
 import Drawer from '../drawer';
 import { usePathname } from 'next/navigation';
+import AnalysisFilteringPanel from '../analysis-filtering-panel';
 
 interface Props {
     isAuthorized?: boolean;
@@ -35,6 +36,12 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
     )
   }, [isAuthorized]);
 
+  const drawerContent = useMemo(() => {
+    if (path == '/analysis') {
+      return <AnalysisFilteringPanel />
+    }
+  }, [path]);
+
   return (
     <>
       <MuiAppBar className={clsx(
@@ -42,7 +49,11 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
       )}>
         {content}
       </MuiAppBar>
-      <Drawer isPermanent={path == '/patients' || path == '/analysis'} />
+      <Drawer 
+        isPermanent={path == '/patients' || path == '/analysis'} 
+      >
+        {drawerContent} 
+      </Drawer>
     </>
   )
 }

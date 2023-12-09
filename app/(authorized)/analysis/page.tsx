@@ -1,8 +1,8 @@
-import PatientsView from "@/page-views/patients-view";
+import AnalysisView from "@/page-views/analysis-view";
 
 const Patients: React.FC = () => {
     return (
-        <PatientsView />
+        <AnalysisView />
     )
 }
 
