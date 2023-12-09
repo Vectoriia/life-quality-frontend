@@ -1,3 +1,4 @@
+'use client'
 import { Avatar, Box, IconButton } from '@mui/material';
 import { RxAvatar } from 'react-icons/rx';
 import { FaRegEdit } from 'react-icons/fa';
@@ -25,7 +26,7 @@ const PeopleAvatar = ({
         variant="circular"
         alt={alt}
       >
-        {!src && <RxAvatar />}
+        {!src && <RxAvatar className="text-black" size={64} />}
       </Avatar>
       {isOnline && (
         <Box sx={styles.onlineBorder(size)}>

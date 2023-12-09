@@ -1,3 +1,4 @@
+'use client'
 import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 
 import { combineSx } from '@/utils';

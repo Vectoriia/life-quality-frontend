@@ -79,7 +79,6 @@ const Popup: React.FC<Props> = ({
         }}
       >
         {hasMobileIndicator && (
-          // eslint-disable-next-line max-len
           <div className="absolute top-2 left-1/2 -translate-x-1/2 h-1 w-[58px] bg-primary-line rounded-[5px]" />
         )}
         {hasCloseButton && (
