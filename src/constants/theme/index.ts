@@ -1,5 +1,27 @@
+'use client'
+
 import { stepLabelClasses, outlinedInputClasses } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
+
+export const fontFamily = [
+  "Circular Std",
+  'ui-sans-serif', 
+  'system-ui', 
+  '-apple-system', 
+  'BlinkMacSystemFont', 
+  "Segoe UI", 
+  'Roboto', 
+  "Helvetica Neue", 
+  'Arial', 
+  "Noto Sans", 
+  'sans-serif', 
+  "Apple Color Emoji", 
+  "Segoe UI Emoji", 
+  "Segoe UI Symbol", 
+  "Noto Color Emoji", 
+  '"Inter"', 
+  'Inter'
+].join(", ");
 
 export const theme = createTheme({
   breakpoints: {
@@ -114,7 +136,9 @@ export const theme = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: {
-        body: null,
+        body: {
+          fontFamily: fontFamily,
+        },
       },
     },
     MuiButtonBase: {
@@ -555,30 +579,26 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Inter',
+    fontFamily: fontFamily,
     h1: {
-      fontFamily: 'Inter',
       fontSize: '32px',
       fontWeight: 700,
       lineHeight: 'normal',
       color: '#1C1B1F',
     }, //h1
     h2: {
-      fontFamily: 'Inter',
       fontSize: '26px',
       fontWeight: 700,
       lineHeight: '130%',
       color: '#1C1B1F',
     }, //h2
     h3: {
-      fontFamily: 'Inter',
       fontSize: '24px',
       fontWeight: 600,
       lineHeight: '150%',
       color: '#1C1B1F',
     }, //modal windows title
     h4: {
-      fontFamily: 'Inter',
       fontSize: '18px',
       fontWeight: 700,
       lineHeight: '150%',
@@ -586,7 +606,6 @@ export const theme = createTheme({
       color: '#1C1B1F',
     }, //subheading
     h5: {
-      fontFamily: 'Inter',
       fontSize: '16px',
       fontWeight: 700,
       lineHeight: 1.5,
@@ -594,7 +613,6 @@ export const theme = createTheme({
       color: '#1C1B1F',
     }, //body bold
     h6: {
-      fontFamily: 'Inter',
       fontSize: '12px',
       fontWeight: 600,
       lineHeight: '16px',
@@ -602,7 +620,6 @@ export const theme = createTheme({
       color: '#1C1B1F',
     }, //category header
     button: {
-      fontFamily: 'Inter',
       fontSize: '16px',
       fontWeight: 700,
       letterSpacing: 0,
@@ -610,28 +627,24 @@ export const theme = createTheme({
       color: '#1C1B1F',
     }, //button
     subtitle1: {
-      fontFamily: 'Inter',
       fontSize: '12px',
       fontWeight: 400,
       lineHeight: '20px',
       color: '#1C1B1F',
     }, //card tag
     subtitle2: {
-      fontFamily: 'Inter',
       fontSize: '14px',
       fontWeight: 500,
       lineHeight: '20px',
       color: '#1C1B1F',
     }, //form input label
     body1: {
-      fontFamily: 'Inter',
       fontSize: '16px',
       fontWeight: 400,
       lineHeight: 1.5,
       color: '#1C1B1F',
     }, //body / body medium weight 500
     body2: {
-      fontFamily: 'Inter',
       fontSize: '16px',
       fontWeight: 500,
       lineHeight: '24px',
@@ -639,7 +652,6 @@ export const theme = createTheme({
       color: '#1C1B1F',
     }, // body M /body 3
     body3: {
-      fontFamily: 'Inter',
       fontSize: '14px',
       fontWeight: 400,
       lineHeight: '150%',
@@ -647,7 +659,6 @@ export const theme = createTheme({
       color: '#1C1B1F',
     }, //body small
     body4: {
-      fontFamily: 'Inter',
       fontSize: '14px',
       fontWeight: 500,
       lineHeight: '20px',
