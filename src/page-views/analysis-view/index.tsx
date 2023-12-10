@@ -2,8 +2,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextF
 import dayjs from "dayjs";
 import { IoMdCheckmarkCircle, IoIosCloseCircle } from "react-icons/io";
 import { BiSolidHourglass } from "react-icons/bi";
+import getStatusIcon from "@/utils/get-analysis-status-icon";
 
-enum AnalysisStatus {
+export enum AnalysisStatus {
     Done,
     Pending,
     Failed,
@@ -42,15 +43,9 @@ const analysis: AnalysisDto[] = [
 ]
 
 const AnalysisView: React.FC = () => {
-    const getStatusIcon = (status: AnalysisStatus) => {
-        switch(status){
-            case AnalysisStatus.Done: return <IoMdCheckmarkCircle size={33} className="text-green"/>;
-            case AnalysisStatus.Failed: return <IoIosCloseCircle size={33} className="text-red-600"/>
-            case AnalysisStatus.Pending: return <BiSolidHourglass size={33} className="text-yellow-600"/>
-        }
-    }
+
     return (
-        <div className="relative mx-3 mt-10 min-h-[calc(100vh-200px)]">
+        <div className="relative ml-[252px] mx-3 ml-[] mt-10 min-h-[calc(100vh-200px)]">
         <TableContainer className="bg-white">
             <Table>
                 <TableHead>

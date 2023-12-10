@@ -50,8 +50,9 @@ const Drawer: React.FC<Props> = ({
   }, [path])
 
   return (
-      <MuiDrawer
-      variant={isPermanent ? "permanent" : "temporary"}
+    <MuiDrawer
+      hideBackdrop
+      variant={isPermanent ? "permanent" : "persistent"}
       open={isPermanent || open}
       sx={{
         width: drawerWidth,
