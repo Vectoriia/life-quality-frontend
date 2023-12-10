@@ -1,16 +1,18 @@
 "use client"
 
 import {
+  IconButton,
   AppBar as MuiAppBar, Typography
 } from '@mui/material';
 import clsx from 'clsx';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { RiAccountCircleLine } from "react-icons/ri";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiChat4Line } from "react-icons/ri";
 import Drawer from '../drawer';
 import { usePathname } from 'next/navigation';
 import AnalysisFilteringPanel from '../analysis-filtering-panel';
+import { HiOutlineMenu } from "react-icons/hi";
 
 interface Props {
     isAuthorized?: boolean;
@@ -18,10 +20,16 @@ interface Props {
 
 const Header: React.FC<Props> = ({ isAuthorized }) => {
   const path = usePathname();
+  const [openDrawer, setOpenDrawer] = useState(false);
   const content = useMemo(() => {
     return (
       <div className="flex justify-between w-full">
-        <Typography variant="h3" className="text-white">Якість життя</Typography>
+        <div className="flex items-center gap-2">
+          <IconButton onClick={() => setOpenDrawer((prev) => !prev)}>
+            <HiOutlineMenu className="text-white" size={42} /> 
+          </IconButton>
+          <Typography variant="h3" className="text-white">Якість життя</Typography>
+        </div>
         {isAuthorized && (
             <div className="flex gap-4 items-center">
                 <RiChat4Line size={24} className="shrink-0"/>
@@ -51,6 +59,7 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
       </MuiAppBar>
       <Drawer 
         isPermanent={path == '/patients' || path == '/analysis'} 
+        open={openDrawer}
       >
         {drawerContent} 
       </Drawer>
