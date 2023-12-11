@@ -17,6 +17,7 @@ const PeopleAvatar = ({
   onEdit,
   size = 'medium',
   isImageOffsets = false,
+  svgSize,
 }: IPeopleAvatarProps) => {
   return (
     <Box sx={combineSx(styles.root(size), boxSx)}>
@@ -26,7 +27,7 @@ const PeopleAvatar = ({
         variant="circular"
         alt={alt}
       >
-        {!src && <RxAvatar className="text-black" size={64} />}
+        {!src && <RxAvatar className="text-black" size={svgSize || 64} />}
       </Avatar>
       {isOnline && (
         <Box sx={styles.onlineBorder(size)}>

@@ -5,6 +5,7 @@ import { BsFillClipboard2PlusFill } from "react-icons/bs";
 import { PropsWithChildren, ReactNode, useMemo } from 'react';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
+import { IoMdSettings } from "react-icons/io";
 
 const drawerWidth = 240;
 
@@ -66,7 +67,7 @@ const Drawer: React.FC<Props> = ({
         }
       }}
     >
-      <Box sx={{ overflow: 'auto' }}>
+      <Box className="flex flex-col justify-between h-full">
         <List>
           {items.map((item) => (
             <ListItem key={item.route}>
@@ -84,6 +85,15 @@ const Drawer: React.FC<Props> = ({
           ))}
         </List>
         {children}
+        <Link 
+          className={clsx(
+            'no-underline flex items-center bg-white px-5 rounded-sm gap-2 mb-10',
+          )} 
+          href="/settings"
+        >
+          <IoMdSettings />
+          <Typography variant="body2">Налаштування</Typography>
+        </Link>
       </Box>
     </MuiDrawer>
   )

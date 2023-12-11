@@ -10,4 +10,5 @@ export interface IPeopleAvatarProps {
   onEdit?: () => void;
   size?: IAvatarSize;
   isImageOffsets?: boolean;
+  svgSize?: number;
 }
