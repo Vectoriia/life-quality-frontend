@@ -1,19 +1,33 @@
-'use client';
-import { Box } from '@mui/material';
-import { Formik, Form, Field } from 'formik';
+"use client";
+import { Box } from "@mui/material";
+import { Formik, Form, Field } from "formik";
 
-import { TextInput, Button, AutocompleteInput, BaseOption } from '@/components';
+import {
+  TextInput,
+  Button,
+  AutocompleteInput,
+  BaseOption,
+  ConfigAnalysModal,
+} from "@/components";
 
-import { schema } from './schema';
-import styles from './styles';
-import useCreateAnalysForm from './useCreateAnalysForm';
-import { ISelectItem } from '@/types';
-import { HTMLAttributes } from 'react';
-import { ICreateAnalysFormProps } from './types';
+import { schema } from "./schema";
+import styles from "./styles";
+import useCreateAnalysForm from "./useCreateAnalysForm";
+import { ISelectItem } from "@/types";
+import { HTMLAttributes } from "react";
+import { ICreateAnalysisFormProps } from "./types";
+import { AnalysisType } from "@/enums";
 
-const CreateAnalysForm = (props: ICreateAnalysFormProps) => {
-  const { initialValues, handleSubmit, handleCancel, analysisTypeOptions } =
-    useCreateAnalysForm(props);
+const CreateAnalysForm = (props: ICreateAnalysisFormProps) => {
+  const {
+    isConfigOpen,
+    handleConfig,
+    handleConfigCancel,
+    initialValues,
+    handleSubmit,
+    handleCancel,
+    analysisTypeOptions,
+  } = useCreateAnalysForm(props);
 
   return (
     <Formik
@@ -21,7 +35,7 @@ const CreateAnalysForm = (props: ICreateAnalysFormProps) => {
       validationSchema={schema}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, values }) => (
+      {({ isSubmitting, values, isValid, dirty }) => (
         <Form>
           <Box sx={styles.contentWrapper}>
             <Box sx={styles.fieldsWrapper}>
@@ -33,14 +47,14 @@ const CreateAnalysForm = (props: ICreateAnalysFormProps) => {
                 component={TextInput}
               />
               <Field
-                name="analysType"
+                name="type"
                 fullWidth
                 disableClearable
                 options={analysisTypeOptions}
                 textFieldProps={{
                   fullWidth: true,
-                  label: 'Тип аналізу',
-                  placeholder: 'Обрати тип аналізу',
+                  label: "Тип аналізу",
+                  placeholder: "Обрати тип аналізу",
                 }}
                 isOptionEqualToValue={(
                   option: ISelectItem<string>,
@@ -52,12 +66,12 @@ const CreateAnalysForm = (props: ICreateAnalysFormProps) => {
                 ) => (
                   <BaseOption
                     option={option}
-                    fieldValue={values.analysType ?? null}
+                    fieldValue={values.type ?? null}
                     {...listProps}
                   />
                 )}
                 getOptionLabel={(option: ISelectItem<string>) =>
-                  option.label ?? ''
+                  option.label ?? ""
                 }
                 component={AutocompleteInput}
               />
@@ -82,6 +96,15 @@ const CreateAnalysForm = (props: ICreateAnalysFormProps) => {
                 Створити
               </Button>
               <Button
+                variant="contained"
+                color="primary"
+                size="medium"
+                onClick={handleConfig}
+                disabled={!(isValid && dirty)}
+              >
+                Налаштувати регулярність
+              </Button>
+              <Button
                 variant="outlined"
                 color="primary"
                 size="medium"
@@ -91,6 +114,15 @@ const CreateAnalysForm = (props: ICreateAnalysFormProps) => {
               </Button>
             </Box>
           </Box>
+          <ConfigAnalysModal
+            open={isConfigOpen}
+            analys={{
+              patient: values.patient,
+              type: Number(values.type) as AnalysisType,
+              comment: values.comment ?? "",
+            }}
+            onClose={handleConfigCancel}
+          />
         </Form>
       )}
     </Formik>

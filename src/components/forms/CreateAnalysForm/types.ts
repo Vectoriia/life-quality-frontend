@@ -1,11 +1,17 @@
+import { AnalysisType } from '@/enums';
 import { ISelectItem } from '@/types';
 
-export interface ICreateAnalysFormData {
+export interface ShortCreateAnalysisDto {
   patient: string;
-  analysType: ISelectItem<string> | null;
+  type: AnalysisType;
+  comment?: string;
+}
+export interface ICreateAnalysisFormData {
+  patient: string;
+  type: ISelectItem<string> | null;
   comment?: string | null;
 }
 
-export interface ICreateAnalysFormProps {
+export interface ICreateAnalysisFormProps {
   onClose: () => void;
 }

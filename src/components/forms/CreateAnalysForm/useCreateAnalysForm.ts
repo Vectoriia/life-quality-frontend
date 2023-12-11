@@ -1,13 +1,14 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import type { ICreateAnalysFormData, ICreateAnalysFormProps } from './types';
+import type { ICreateAnalysisFormData, ICreateAnalysisFormProps } from './types';
 import type { FormikHelpers } from 'formik';
 import toast from 'react-hot-toast';
 import { ISelectItem } from '@/types';
 import { AnalysisType } from '@/enums';
 import { analysisTypeMapping } from '@/constants';
 
-const useCreateAnalysForm = ({ onClose }: ICreateAnalysFormProps) => {
+const useCreateAnalysForm = ({ onClose }: ICreateAnalysisFormProps) => {
+  const [isConfigOpen, setIsConfigOpen] = useState<boolean>(false);
   const analysisTypeOptions: ISelectItem<number>[] = useMemo(
     () => [
       {
@@ -26,16 +27,16 @@ const useCreateAnalysForm = ({ onClose }: ICreateAnalysFormProps) => {
     []
   );
 
-  const initialValues: ICreateAnalysFormData = {
+  const initialValues: ICreateAnalysisFormData = {
     patient: '',
-    analysType: null,
+    type: null,
     comment: '',
   };
 
   const handleSubmit = useCallback(
     async (
-      values: ICreateAnalysFormData,
-      { setSubmitting, setErrors }: FormikHelpers<ICreateAnalysFormData>
+      values: ICreateAnalysisFormData,
+      { setSubmitting, setErrors }: FormikHelpers<ICreateAnalysisFormData>
     ) => {
       toast('success!');
     },
@@ -44,7 +45,13 @@ const useCreateAnalysForm = ({ onClose }: ICreateAnalysFormProps) => {
 
   const handleCancel = useCallback(() => onClose(), [onClose]);
 
+  const handleConfig = useCallback(() => setIsConfigOpen(true), []);
+  const handleConfigCancel = useCallback(() => setIsConfigOpen(false), []);
+
   return {
+    isConfigOpen,
+    handleConfig,
+    handleConfigCancel,
     analysisTypeOptions,
     initialValues,
     handleSubmit,

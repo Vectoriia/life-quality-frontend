@@ -3,7 +3,7 @@ import { object, string } from 'yup';
 
 export const schema = object({
   patient: string().trim().required(`Обов'язкове поле`),
-  analysType: selectItemStringSchema
+  type: selectItemStringSchema
     .typeError(`Обов'язкове поле`)
     .required(`Обов'язкове поле`),
   comment: string().trim().optional(),
