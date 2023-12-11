@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   Table,
   TableBody,
@@ -6,32 +6,32 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-} from "@mui/material";
-import dayjs from "dayjs";
-import getStatusIcon from "@/utils/get-analysis-status-icon";
-import { AnalysisDto } from "@/dto";
-import { AnalysisStatus } from "@/enums";
+} from '@mui/material';
+import dayjs from 'dayjs';
+import getStatusIcon from '@/utils/get-analysis-status-icon';
+import { AnalysisDto } from '@/dto';
+import { AnalysisStatus } from '@/enums';
 
 const analysis: AnalysisDto[] = [
   {
     id: 1,
-    patientName: "Гречко Марія",
-    receivedAt: dayjs().format("DD.MM.YYYY HH:mm"),
-    type: "Цукор",
+    patientName: 'Гречко Марія',
+    receivedAt: dayjs().format('DD.MM.YYYY HH:mm'),
+    type: 'Цукор',
     status: AnalysisStatus.Done,
   },
   {
     id: 2,
-    patientName: "Гречко Марія",
-    receivedAt: dayjs().format("DD.MM.YYYY HH:mm"),
-    type: "Цукор",
+    patientName: 'Гречко Марія',
+    receivedAt: dayjs().format('DD.MM.YYYY HH:mm'),
+    type: 'Цукор',
     status: AnalysisStatus.Failed,
   },
   {
     id: 3,
-    patientName: "Гречко Марія",
-    receivedAt: dayjs().format("DD.MM.YYYY HH:mm"),
-    type: "Цукор",
+    patientName: 'Гречко Марія',
+    receivedAt: dayjs().format('DD.MM.YYYY HH:mm'),
+    type: 'Цукор',
     status: AnalysisStatus.Pending,
   },
 ];
@@ -58,7 +58,7 @@ const AnalysisView: React.FC = () => {
             {analysis?.map((analysis, index) => (
               <TableRow
                 key={analysis.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell>{index + 1}.</TableCell>
                 <TableCell className="bg-background">{analysis.type}</TableCell>
