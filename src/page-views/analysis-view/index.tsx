@@ -38,7 +38,7 @@ const analysis: AnalysisDto[] = [
 
 const AnalysisView: React.FC = () => {
   return (
-    <div className="relative ml-[252px] mx-3 ml-[] mt-10 min-h-[calc(100vh-200px)]">
+    <div className="relative ml-[252px] mx-3  mt-10 min-h-[calc(100vh-200px)]">
       <TableContainer className="bg-white">
         <Table>
           <TableHead>
