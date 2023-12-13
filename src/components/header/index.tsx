@@ -4,7 +4,6 @@ import { IconButton, AppBar as MuiAppBar, Typography } from '@mui/material';
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
 import { RiAccountCircleLine } from 'react-icons/ri';
-import { IoMdNotificationsOutline } from 'react-icons/io';
 import { RiLogoutBoxLine } from 'react-icons/ri';
 import Drawer from '../drawer';
 import { usePathname } from 'next/navigation';
@@ -12,6 +11,8 @@ import AnalysisFilteringPanel from '../analysis-filtering-panel';
 import { HiOutlineMenu } from 'react-icons/hi';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
+import useTypedSession from '@/hooks/use-typed-session';
+import NotificationPopup from '../NotificatiosPopup';
 
 interface Props {
   isAuthorized?: boolean;
@@ -22,7 +23,9 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const handleSignOut = () => {
     signOut();
-  }
+  };
+  const { data, status } = useTypedSession();
+
   const content = useMemo(() => {
     return (
       <div className="flex justify-between w-full">
@@ -36,12 +39,16 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
         </div>
         {isAuthorized && (
           <div className="flex gap-4 items-center">
-            {/*TODO: add logout */}
             <IconButton onClick={handleSignOut}>
               <RiLogoutBoxLine size={24} className="shrink-0" />
             </IconButton>
-            <IoMdNotificationsOutline size={24} className="shrink-0" />
-            <Link href="/profile" className="flex flex-col justify-center items-center no-underline text-white">
+            <NotificationPopup
+              redirectUrl={data.user.role === 1 ? '/profile' : '/analysis'}
+            />
+            <Link
+              href="/profile"
+              className="flex flex-col justify-center items-center no-underline text-white"
+            >
               <RiAccountCircleLine size={24} className="shrink-0" />
               <Typography className="text-white" variant="subtitle1">
                 Акаунт
