@@ -1,14 +1,14 @@
 import PatientPageView from "@/page-views/patient-page-view";
 
 interface Props {
-    params: { patientId: string };
+    params: { patientId: number };
 }
 
 const PatientInfo: React.FC<Props> = ({
     params,
 }) => {
     return (
-        <PatientPageView />
+        <PatientPageView patientId={params.patientId}/>
     )
 }
 

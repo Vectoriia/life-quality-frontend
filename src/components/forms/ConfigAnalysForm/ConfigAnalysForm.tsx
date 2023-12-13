@@ -10,11 +10,11 @@ import useCreateAnalysForm from "./useCreateAnalysForm";
 import { ISelectItem } from "@/types";
 import { HTMLAttributes } from "react";
 import { IConfigAnalysisFormProps as IConfigAnalysisFormProps } from "./types";
-import { DateField, LocalizationProvider } from "@mui/x-date-pickers";
+import { DateField, DateTimeField, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const ConfigAnalysForm = (props: IConfigAnalysisFormProps) => {
-  const { initialValues, handleSubmit, handleCancel, regularityOptions } =
+  const { initialValues, handleSubmit, handleCancel, intervalTypeOptions } =
     useCreateAnalysForm(props);
 
   return (
@@ -31,7 +31,7 @@ const ConfigAnalysForm = (props: IConfigAnalysisFormProps) => {
                 name="regularity"
                 fullWidth
                 disableClearable
-                options={regularityOptions}
+                options={intervalTypeOptions}
                 textFieldProps={{
                   fullWidth: true,
                   label: "Тип регулярності",
@@ -68,7 +68,8 @@ const ConfigAnalysForm = (props: IConfigAnalysisFormProps) => {
                     onChange={(value: Date) =>
                       setFieldValue("startDate", value, true)
                     }
-                    component={DateField}
+                    ampm={false}
+                    component={DateTimeField}
                   />
                   {!!errors?.startDate && (
                     <Typography sx={styles.helperText}>
@@ -89,7 +90,8 @@ const ConfigAnalysForm = (props: IConfigAnalysisFormProps) => {
                     onChange={(value: Date) =>
                       setFieldValue("endDate", value, true)
                     }
-                    component={DateField}
+                    ampm={false}
+                    component={DateTimeField}
                   />
                   {!!errors?.endDate && (
                     <Typography sx={styles.helperText}>

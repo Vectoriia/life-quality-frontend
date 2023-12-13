@@ -10,6 +10,8 @@ import Drawer from '../drawer';
 import { usePathname } from 'next/navigation';
 import AnalysisFilteringPanel from '../analysis-filtering-panel';
 import { HiOutlineMenu } from 'react-icons/hi';
+import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 interface Props {
   isAuthorized?: boolean;
@@ -18,6 +20,9 @@ interface Props {
 const Header: React.FC<Props> = ({ isAuthorized }) => {
   const path = usePathname();
   const [openDrawer, setOpenDrawer] = useState(false);
+  const handleSignOut = () => {
+    signOut();
+  }
   const content = useMemo(() => {
     return (
       <div className="flex justify-between w-full">
@@ -32,14 +37,16 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
         {isAuthorized && (
           <div className="flex gap-4 items-center">
             {/*TODO: add logout */}
-            <RiLogoutBoxLine size={24} className="shrink-0" />
+            <IconButton onClick={handleSignOut}>
+              <RiLogoutBoxLine size={24} className="shrink-0" />
+            </IconButton>
             <IoMdNotificationsOutline size={24} className="shrink-0" />
-            <div className="flex flex-col justify-center items-center">
+            <Link href="/profile" className="flex flex-col justify-center items-center no-underline text-white">
               <RiAccountCircleLine size={24} className="shrink-0" />
               <Typography className="text-white" variant="subtitle1">
                 Акаунт
               </Typography>
-            </div>
+            </Link>
           </div>
         )}
       </div>
@@ -64,6 +71,7 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
       <Drawer
         isPermanent={path == '/patients' || path == '/analysis'}
         open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
       >
         {drawerContent}
       </Drawer>

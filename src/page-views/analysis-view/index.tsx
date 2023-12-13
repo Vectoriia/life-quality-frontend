@@ -9,36 +9,50 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import getStatusIcon from '@/utils/get-analysis-status-icon';
-import { AnalysisDto } from '@/dto';
-import { AnalysisStatus } from '@/enums';
+import Link from 'next/link';
+import { FaArrowRight } from "react-icons/fa";
+import { CreateAnalysModal } from '@/components';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useGetBloodAnalysisByDoctorByDoctorIdQuery } from 'core/api/baseApi';
+import useTypedSession from '@/hooks/use-typed-session';
 
-const analysis: AnalysisDto[] = [
-  {
-    id: 1,
-    patientName: 'Гречко Марія',
-    receivedAt: dayjs().format('DD.MM.YYYY HH:mm'),
-    type: 'Цукор',
-    status: AnalysisStatus.Done,
-  },
-  {
-    id: 2,
-    patientName: 'Гречко Марія',
-    receivedAt: dayjs().format('DD.MM.YYYY HH:mm'),
-    type: 'Цукор',
-    status: AnalysisStatus.Failed,
-  },
-  {
-    id: 3,
-    patientName: 'Гречко Марія',
-    receivedAt: dayjs().format('DD.MM.YYYY HH:mm'),
-    type: 'Цукор',
-    status: AnalysisStatus.Pending,
-  },
-];
+// const analysis: AnalysisDto[] = [
+//   {
+//     id: 1,
+//     patientName: 'Гречко Марія',
+//     receivedAt: dayjs().format('DD.MM.YYYY HH:mm'),
+//     type: 'Цукор',
+//     status: AnalysisStatus.Done,
+//   },
+//   {
+//     id: 2,
+//     patientName: 'Гречко Марія',
+//     receivedAt: dayjs().format('DD.MM.YYYY HH:mm'),
+//     type: 'Цукор',
+//     status: AnalysisStatus.Failed,
+//   },
+//   {
+//     id: 3,
+//     patientName: 'Гречко Марія',
+//     receivedAt: dayjs().format('DD.MM.YYYY HH:mm'),
+//     type: 'Цукор',
+//     status: AnalysisStatus.Pending,
+//   },
+// ];
 
 const AnalysisView: React.FC = () => {
+  const searchParams = useSearchParams();
+  const open = searchParams.has('requestAnalysis');
+  const router = useRouter();
+  const { data: sessionData } = useTypedSession();
+
+  const { data: analysis } = useGetBloodAnalysisByDoctorByDoctorIdQuery({
+    doctorId: sessionData.userData.id as number,
+  });
+
   return (
-    <div className="relative ml-[252px] mx-3  mt-10 min-h-[calc(100vh-200px)]">
+    <>
+    <div className="relative md:ml-[252px] mx-3  mt-10 min-h-[calc(100vh-200px)]">
       <TableContainer className="bg-white">
         <Table>
           <TableHead>
@@ -52,6 +66,8 @@ const AnalysisView: React.FC = () => {
               <TableCell align="center" className="bg-background">
                 Статус
               </TableCell>
+              <TableCell align="center" className="bg-background">
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -61,13 +77,18 @@ const AnalysisView: React.FC = () => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell>{index + 1}.</TableCell>
-                <TableCell className="bg-background">{analysis.type}</TableCell>
+                <TableCell className="bg-background">{analysis.analysisType}</TableCell>
                 <TableCell component="th" scope="row">
                   {analysis.patientName}
                 </TableCell>
-                <TableCell>{analysis.receivedAt}</TableCell>
+                <TableCell>{dayjs(analysis.receivedAt).format("YYYY.MM.DD HH:mm")}</TableCell>
                 <TableCell align="center">
                   {getStatusIcon(analysis.status)}
+                </TableCell>
+                <TableCell align="center">
+                  <Link href={`/analysis/${analysis.id as number}`}>
+                    <FaArrowRight />
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}
@@ -75,6 +96,8 @@ const AnalysisView: React.FC = () => {
         </Table>
       </TableContainer>
     </div>
+    <CreateAnalysModal open={!!open} onClose={() => router.replace('/analysis')} />
+    </>
   );
 };
 

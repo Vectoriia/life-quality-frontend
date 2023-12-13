@@ -12,6 +12,8 @@ const config: Config = {
         background: '#EEF4F9',
         green: '#63A033',
         blue: '#356AC3',
+        red: '#E60012',
+        yellow: '#FCF75E',
       }
     },
   },

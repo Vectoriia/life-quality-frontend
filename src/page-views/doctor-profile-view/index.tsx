@@ -3,14 +3,19 @@ import { FiPhoneCall } from "react-icons/fi";
 import { DoctorProfileDto } from "@/dto";
 import { PeopleAvatar } from "@/components";
 import { MdAlternateEmail } from "react-icons/md";
-
-const data: DoctorProfileDto = {
-  name: "Кажан Анна",
-  email: "kazhan.anna@gmail.com",
-  phoneNumber: "+380949601007",
-};
+import { useGetUsersDoctorProfileByIdQuery } from "core/api/baseApi";
+import useTypedSession from "@/hooks/use-typed-session";
 
 const DoctorProfileView: React.FC = () => {
+  const { data: sessionData } = useTypedSession();
+  const { data } = useGetUsersDoctorProfileByIdQuery({
+    id: sessionData.userData.id as number,
+  });
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <div className="relative flex flex-col w-screen items-center">
       <div className="flex flex-col mt-[60px] bg-white rounded-lg py-4 px-6 w-[70%]">
@@ -29,8 +34,13 @@ const DoctorProfileView: React.FC = () => {
             </Typography>
           </div>
           <div className="flex mr-6">
-            <PeopleAvatar avatarSx={{ width: '120px', height: '120px' }}  svgSize={120} src={data.profilePicture} />
+            <PeopleAvatar avatarSx={{ width: '120px', height: '120px' }}  svgSize={120} src={data.profilePicture || ''} />
           </div>
+        </div>
+        <div>
+          <Typography>
+            {data.doctorSpeciality}
+          </Typography>
         </div>
       </div>
     </div>

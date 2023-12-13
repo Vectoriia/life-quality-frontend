@@ -1,12 +1,12 @@
 "use client"
+import useTypedSession from "@/hooks/use-typed-session";
 import DoctorProfileView from "@/page-views/doctor-profile-view";
 import PatientProfileView from "@/page-views/patient-profile-view";
-import { useState } from "react";
 
 const PatientPage: React.FC = () => {
-    const [isPatient, setIsPatient] = useState(false);
+    const { data, status } = useTypedSession();
 
-    if (isPatient) return <PatientProfileView />;
+    if (data.user.role === 1) return <PatientProfileView />;
 
     return (
         <DoctorProfileView />

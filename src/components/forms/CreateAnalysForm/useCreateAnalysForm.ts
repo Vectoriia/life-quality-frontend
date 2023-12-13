@@ -6,8 +6,10 @@ import toast from 'react-hot-toast';
 import { ISelectItem } from '@/types';
 import { AnalysisType } from '@/enums';
 import { analysisTypeMapping } from '@/constants';
+import { usePostBloodAnalysisCreateRequestMutation } from 'core/api/baseApi';
 
-const useCreateAnalysForm = ({ onClose }: ICreateAnalysisFormProps) => {
+const useCreateAnalysForm = ({ onClose, initialValues: prepopulatedValues }: ICreateAnalysisFormProps) => {
+  const [requestAnalysis] = usePostBloodAnalysisCreateRequestMutation();
   const [isConfigOpen, setIsConfigOpen] = useState<boolean>(false);
   const analysisTypeOptions: ISelectItem<number>[] = useMemo(
     () => [
@@ -28,9 +30,9 @@ const useCreateAnalysForm = ({ onClose }: ICreateAnalysisFormProps) => {
   );
 
   const initialValues: ICreateAnalysisFormData = {
-    patient: '',
-    type: null,
-    comment: '',
+    patient: prepopulatedValues.patient,
+    type: prepopulatedValues.type,
+    comment: prepopulatedValues.comment,
   };
 
   const handleSubmit = useCallback(
@@ -38,6 +40,13 @@ const useCreateAnalysForm = ({ onClose }: ICreateAnalysisFormProps) => {
       values: ICreateAnalysisFormData,
       { setSubmitting, setErrors }: FormikHelpers<ICreateAnalysisFormData>
     ) => {
+      requestAnalysis({
+        analysisRequest: {
+          analysisType: values.type?.label,
+          comment: values.comment,
+          patientName: values.patient,
+        }
+      })
       toast('success!');
     },
     []

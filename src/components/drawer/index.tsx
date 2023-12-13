@@ -1,11 +1,13 @@
 import { Box, List, ListItem, ListItemIcon, ListItemText, Drawer as MuiDrawer, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useMediaQuery } from '@mui/material';
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { BsFillClipboard2PlusFill } from "react-icons/bs";
 import { PropsWithChildren, ReactNode, useMemo } from 'react';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import { IoMdSettings } from "react-icons/io";
+import { theme } from '@/constants/theme';
 
 const drawerWidth = 240;
 
@@ -32,14 +34,20 @@ const DrawerItems: DrawerItem[] = [
 interface Props extends PropsWithChildren {
     open?: boolean;
     isPermanent?: boolean;
+    onClose(): void;
 }
 
 const Drawer: React.FC<Props> = ({
     open,
     children,
     isPermanent,
+    onClose,
 }) => {
   const path = usePathname();
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down(500));
+
+  console.log(isSmallScreen);
 
   const items: DrawerItem[] = useMemo(() => {
     return DrawerItems.map((item) => {
@@ -49,6 +57,39 @@ const Drawer: React.FC<Props> = ({
       }
     });
   }, [path])
+
+  if (isSmallScreen) {
+    return (
+      <MuiDrawer anchor="bottom" open={open} onClose={onClose}>
+        <Box className="flex justify-between h-full">
+            {items.map((item) => (
+              <ListItem key={item.route}>
+                <Link 
+                  className={clsx(
+                    'no-underline flex flex-col items-center bg-white w-full px-5 rounded-sm gap-2',
+                    item.selected && 'drop-shadow-md',
+                  )} 
+                  href={item.route}
+                >
+                  {item.icon}
+                  <Typography variant="body2">{item.title}</Typography>
+                </Link>
+              </ListItem>
+            ))}
+          {children}
+          <Link 
+            className={clsx(
+              'no-underline flex flex-col items-center bg-white px-5 rounded-sm gap-2 md:mb-10',
+            )} 
+            href="/settings"
+          >
+            <IoMdSettings />
+            <Typography variant="body2">Налаштування</Typography>
+          </Link>
+        </Box>
+      </MuiDrawer>
+    )
+  }
 
   return (
     <MuiDrawer
