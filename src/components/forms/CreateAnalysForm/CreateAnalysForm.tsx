@@ -16,7 +16,6 @@ import useCreateAnalysForm from "./useCreateAnalysForm";
 import { ISelectItem } from "@/types";
 import { HTMLAttributes } from "react";
 import { ICreateAnalysisFormProps } from "./types";
-import { AnalysisType } from "@/enums";
 
 const CreateAnalysForm = (props: ICreateAnalysisFormProps) => {
   const {
@@ -117,8 +116,8 @@ const CreateAnalysForm = (props: ICreateAnalysisFormProps) => {
           <ConfigAnalysModal
             open={isConfigOpen}
             analys={{
-              patient: values.patient,
-              type: Number(values.type) as AnalysisType,
+              patient: values.patient || '',
+              type: values.type?.label || '',
               comment: values.comment ?? "",
             }}
             onClose={handleConfigCancel}

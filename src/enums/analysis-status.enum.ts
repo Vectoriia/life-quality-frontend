@@ -2,4 +2,5 @@
   Done,
   Pending,
   Failed,
+  Regular,
 }

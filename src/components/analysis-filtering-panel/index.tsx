@@ -13,7 +13,7 @@ const AnalysisFilteringPanel: React.FC = () => {
                 className={clsx(
                   'no-underline flex items-center bg-white px-5 rounded-sm gap-2',
                 )}
-                href={`/${path}?requestAnalysis`}
+                href={`/analysis?requestAnalysis`}
               >
                 <BsFillPlusCircleFill className="text-blue" />
                 <Typography variant="body2">Створити аналіз</Typography>

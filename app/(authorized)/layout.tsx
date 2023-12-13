@@ -1,4 +1,5 @@
 import Header from '@/components/header';
+import PrivateRoute from '@/components/private-route';
 
 export default function RootLayout({
   children,
@@ -9,7 +10,9 @@ export default function RootLayout({
     <>
       <Header isAuthorized />
       <main className="mt-[70px] min-h-[calc(100vh-80px)]">
-        {children}
+        <PrivateRoute>
+          {children}
+        </PrivateRoute>
       </main>
     </>
   );

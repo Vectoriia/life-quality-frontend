@@ -1,5 +1,6 @@
 import { ISelectItem } from '@/types';
 import { ShortCreateAnalysisDto } from '../CreateAnalysForm/types';
+import { IntervalType } from 'core/api/baseApi';
 
 
 export interface IConfigAnalysisFormData {
