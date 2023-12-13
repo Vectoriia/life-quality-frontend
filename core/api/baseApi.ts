@@ -103,6 +103,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/users/doctor`, method: "POST" }),
     }),
+    getUsersNotifications: build.query<
+      GetUsersNotificationsApiResponse,
+      GetUsersNotificationsApiArg
+    >({
+      query: () => ({ url: `/users/notifications` }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -163,6 +169,9 @@ export type PostUsersPatientApiResponse = unknown;
 export type PostUsersPatientApiArg = void;
 export type PostUsersDoctorApiResponse = unknown;
 export type PostUsersDoctorApiArg = void;
+export type GetUsersNotificationsApiResponse =
+  /** status 200 Success */ NotificationDto[];
+export type GetUsersNotificationsApiArg = void;
 export type UserType = 0 | 1 | 2;
 export type AuthenticateResponse = {
   id?: number;
@@ -256,6 +265,12 @@ export type RecomendationRequest = {
   analysisId?: number;
   message?: string | null;
 };
+export type NotificationType = 0 | 1;
+export type NotificationDto = {
+  id?: number;
+  title?: string | null;
+  notificationType?: NotificationType;
+};
 export const {
   usePostAuthenticationLoginMutation,
   useGetBloodAnalysisByDoctorByDoctorIdQuery,
@@ -270,4 +285,5 @@ export const {
   usePostUsersRecomendationMutation,
   usePostUsersPatientMutation,
   usePostUsersDoctorMutation,
+  useGetUsersNotificationsQuery,
 } = injectedRtkApi;

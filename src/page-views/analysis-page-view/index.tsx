@@ -74,7 +74,7 @@ const AnalysisPageView: React.FC<Props> = ({
       <CreateRecommendationModal
         initialValues={{
           analysisId: analysisId,
-          receiverName: data.patientName,
+          receiverName: data.patientName as string,
           recommendation: ''
         }} 
         open={openModal}
