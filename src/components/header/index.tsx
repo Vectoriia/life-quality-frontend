@@ -26,6 +26,8 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
   };
   const { data, status } = useTypedSession();
 
+  console.log(data)
+
   const content = useMemo(() => {
     return (
       <div className="flex justify-between w-full">
@@ -33,24 +35,24 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
           <IconButton onClick={() => setOpenDrawer((prev) => !prev)}>
             <HiOutlineMenu className="text-white" size={42} />
           </IconButton>
-          <Typography variant="h3" className="text-white">
+          <Typography variant="h3" className="!text-white">
             Якість життя
           </Typography>
         </div>
         {isAuthorized && (
           <div className="flex gap-4 items-center">
             <IconButton onClick={handleSignOut}>
-              <RiLogoutBoxLine size={24} className="shrink-0" />
+              <RiLogoutBoxLine size={24} className="text-white shrink-0" />
             </IconButton>
             <NotificationPopup
-              redirectUrl={data.user.role === 1 ? '/profile' : '/analysis'}
+              redirectUrl={'/profile'}
             />
             <Link
               href="/profile"
               className="flex flex-col justify-center items-center no-underline text-white"
             >
               <RiAccountCircleLine size={24} className="shrink-0" />
-              <Typography className="text-white" variant="subtitle1">
+              <Typography className="!text-white" variant="subtitle1">
                 Акаунт
               </Typography>
             </Link>
@@ -58,13 +60,17 @@ const Header: React.FC<Props> = ({ isAuthorized }) => {
         )}
       </div>
     );
-  }, [isAuthorized]);
+  }, [isAuthorized, data]);
 
   const drawerContent = useMemo(() => {
     if (path == '/analysis') {
       return <AnalysisFilteringPanel />;
     }
   }, [path]);
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <>

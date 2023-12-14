@@ -13,8 +13,10 @@ import Link from 'next/link';
 import { FaArrowRight } from "react-icons/fa";
 import { CreateAnalysModal } from '@/components';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useGetBloodAnalysisByDoctorByDoctorIdQuery } from 'core/api/baseApi';
+import { SmallAnalysisDto, useGetBloodAnalysisByDoctorByDoctorIdQuery } from 'core/api/baseApi';
 import useTypedSession from '@/hooks/use-typed-session';
+import { useMemo } from 'react';
+import useAppSelector from '@/hooks/use-app-selector';
 
 // const analysis: AnalysisDto[] = [
 //   {
@@ -45,11 +47,28 @@ const AnalysisView: React.FC = () => {
   const open = searchParams.has('requestAnalysis');
   const router = useRouter();
   const { data: sessionData } = useTypedSession();
+  const { isChol, isGen, isRegular, isSingle, isSug } = useAppSelector((store) => store.ui)
 
   const { data: analysis } = useGetBloodAnalysisByDoctorByDoctorIdQuery({
     doctorId: sessionData.userData.id as number,
   });
 
+  const analysisToRender = useMemo(() => {
+    if (!analysis) return [];
+
+    let result: SmallAnalysisDto[] = [...analysis];
+
+    if (isChol) {
+      result = result.filter((i) => i.analysisType === 'Холестерин');
+    }
+
+    if (isRegular) {
+      result = result.filter((i) => i.isRegular);
+    }
+
+    return result;
+  }, [isChol, isRegular, analysis]);
+  
   return (
     <>
     <div className="relative md:ml-[252px] mx-3  mt-10 min-h-[calc(100vh-200px)]">
@@ -71,7 +90,7 @@ const AnalysisView: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {analysis?.map((analysis, index) => (
+            {analysisToRender.map((analysis, index) => (
               <TableRow
                 key={analysis.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

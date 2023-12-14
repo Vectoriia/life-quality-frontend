@@ -9,7 +9,7 @@ import { BsFillClipboard2PlusFill } from "react-icons/bs";
 const PatientsView: React.FC = () => {
   const [search, setSearch] = useState('');
   const { data: patients } = useGetUsersPatientsQuery({
-    filterByName: '',
+    filterByName: search,
   });
 
   return (

@@ -91,6 +91,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.recomendationRequest,
       }),
     }),
+    getUsersRecomendationById: build.query<
+      GetUsersRecomendationByIdApiResponse,
+      GetUsersRecomendationByIdApiArg
+    >({
+      query: (queryArg) => ({ url: `/users/recomendation/${queryArg.id}` }),
+    }),
     postUsersPatient: build.mutation<
       PostUsersPatientApiResponse,
       PostUsersPatientApiArg
@@ -164,6 +170,11 @@ export type GetUsersPatientProfileByIdApiArg = {
 export type PostUsersRecomendationApiResponse = unknown;
 export type PostUsersRecomendationApiArg = {
   recomendationRequest: RecomendationRequest;
+};
+export type GetUsersRecomendationByIdApiResponse =
+  /** status 200 Success */ RecommendationDto;
+export type GetUsersRecomendationByIdApiArg = {
+  id: number;
 };
 export type PostUsersPatientApiResponse = unknown;
 export type PostUsersPatientApiArg = void;
@@ -245,6 +256,7 @@ export type DoctorProfileDto = {
   doctorSpeciality?: string | null;
 };
 export type ShortRecommendationDto = {
+  id?: number;
   analysis?: SmallAnalysisDto;
   receivedAt?: string | null;
   content?: string | null;
@@ -265,6 +277,11 @@ export type RecomendationRequest = {
   analysisId?: number;
   message?: string | null;
 };
+export type RecommendationDto = {
+  doctorName?: string | null;
+  receivedAt?: string;
+  message?: string | null;
+};
 export type NotificationType = 0 | 1;
 export type NotificationDto = {
   id?: number;
@@ -283,6 +300,7 @@ export const {
   useGetUsersDoctorProfileByIdQuery,
   useGetUsersPatientProfileByIdQuery,
   usePostUsersRecomendationMutation,
+  useGetUsersRecomendationByIdQuery,
   usePostUsersPatientMutation,
   usePostUsersDoctorMutation,
   useGetUsersNotificationsQuery,

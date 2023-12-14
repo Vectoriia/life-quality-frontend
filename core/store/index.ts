@@ -11,12 +11,14 @@ import {
   import environment from '@/utils/environment';
   
   import uiReducer from './ui';
+  import notificationsReducer from './notifications';
   import { enhancedApi } from 'core/api/enhancedApi';
   import toast from 'react-hot-toast';
   
   const combinedReducer = combineReducers({
     [enhancedApi.reducerPath]: enhancedApi.reducer,
     ui: uiReducer,
+    notifications: notificationsReducer,
   });
   
   export const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {

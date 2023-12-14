@@ -12,28 +12,23 @@ import React, {
 } from 'react';
 
 
-import { NOTIFICATIONS_PAGE_SIZE } from '@config/constants';
-import useAppDispatch from '@hooks/use-app-dispatch';
-import useAppSelector from '@hooks/use-app-selector';
-import useTypedSession from '@hooks/use-typed-session';
+import useAppDispatch from '@/hooks/use-app-dispatch';
+import useAppSelector from '@/hooks/use-app-selector';
+import useTypedSession from '@/hooks/use-typed-session';
 import {
   addNewToNotifications,
-  setNextPageToken,
   setNotifications,
-} from '@store/notifications';
-import environment from '@utils/environment';
+} from 'core/store/notifications';
+import environment from '@/utils/environment';
+import { NotificationDto, enhancedApi } from 'core/api/enhancedApi';
 
 interface HubContextValues {
   hubConnection?: HubConnection;
-  requestedPaymentsCount: number;
-  unreadMessagesCount: number;
-  unreadNotificationsCount: number;
+  unreadNotifications: boolean;
 }
 
 const initialContext: HubContextValues = {
-  requestedPaymentsCount: 0,
-  unreadMessagesCount: 0,
-  unreadNotificationsCount: 0,
+  unreadNotifications: false,
 };
 
 export const HubContext = createContext<HubContextValues>(initialContext);
@@ -47,38 +42,10 @@ const HubProvider: React.FC<PropsWithChildren<unknown>> = ({ children }) => {
   const { data: sessionData, status } = useTypedSession();
   const accessToken = sessionData?.accessToken;
 
-  const [requestedPaymentsCount, setRequestedPaymentsCount] = useState(0);
-  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
-  const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
+  const [unreadNotifications, setUnreadNotifications] = useState(false);
   const [socketState, setSocketState] = useState<HubConnection>();
 
-  const { data: requestedPaymentsCountData } =
-    useGetPendingNotificationCountQuery(undefined, { skip: !accessToken });
-  const { data: unreadMessagesCountData } = useGetTotalUnreadCountQuery(
-    undefined,
-    { skip: !accessToken },
-  );
-  const { data: unreadNotificationsCountData } =
-    useGetUnreadNotificationCountQuery(undefined, { skip: !accessToken });
-  const [getNotifications] = chefApi.useLazyGetUserNotificationsQuery();
-
-  useEffect(() => {
-    if (requestedPaymentsCountData) {
-      setRequestedPaymentsCount(requestedPaymentsCountData.count);
-    }
-  }, [requestedPaymentsCountData]);
-
-  useEffect(() => {
-    if (unreadMessagesCountData) {
-      setUnreadMessagesCount(unreadMessagesCountData.totalUnreadMessagesCount);
-    }
-  }, [unreadMessagesCountData]);
-
-  useEffect(() => {
-    if (unreadNotificationsCountData) {
-      setUnreadNotificationsCount(unreadNotificationsCountData.count);
-    }
-  }, [unreadNotificationsCountData]);
+  const [getNotifications] = enhancedApi.useLazyGetUsersNotificationsQuery();
 
   useEffect(() => {
     if (status !== 'authenticated') {
@@ -88,30 +55,31 @@ const HubProvider: React.FC<PropsWithChildren<unknown>> = ({ children }) => {
     }
 
     if (socketState && allowNotifications) {
-      getNotifications({ pageSize: NOTIFICATIONS_PAGE_SIZE })
+      getNotifications()
         .unwrap()
-        .then(({ nextPageData, nextPageToken }) => {
-          dispatch(setNotifications(nextPageData ?? []));
-          dispatch(setNextPageToken(nextPageToken ?? null));
+        .then((response) => {
+          dispatch(setNotifications(response ?? []));
         })
         .finally(() => {
           socketState?.on(
-            'ReceiveInAppNotification',
+            'ReceiveNotification',
             (notification: NotificationDto) => {
+             console.log(notification, '2')
+
               dispatch(addNewToNotifications(notification));
             },
           );
         });
     }
 
-    return () => socketState?.off('ReceiveInAppNotification');
+    return () => socketState?.off('ReceiveNotification');
   }, [socketState, status, allowNotifications]);
 
   useEffect(() => {
     if (!accessToken) return undefined;
 
     const connection = new HubConnectionBuilder()
-      .withUrl(`${environment.apiUrl}/hubs/chat`, {
+      .withUrl(`${environment.apiUrl}/hubs/main`, {
         accessTokenFactory: () => accessToken,
       })
       .withAutomaticReconnect()
@@ -121,17 +89,9 @@ const HubProvider: React.FC<PropsWithChildren<unknown>> = ({ children }) => {
     connection
       .start()
       .then(() => {
-        connection.on(
-          'ReceivePendingPaymentsCount',
-          (requested: UnreadCountDto) => {
-            setRequestedPaymentsCount(requested.totalUnreadMessagesCount);
-          },
-        );
-        connection.on('ReceiveUnreadCount', (unread: UnreadCountDto) => {
-          setUnreadMessagesCount(unread.totalUnreadMessagesCount);
-        });
-        connection.on('ReceiveUnreadNotificationCount', (unread: CountDto) => {
-          setUnreadNotificationsCount(unread.count);
+        connection.on('ReceiveNotification', (notification: NotificationDto) => {
+          console.log(notification, '1')
+          setUnreadNotifications(true);
         });
         setSocketState(connection);
       })
@@ -147,15 +107,11 @@ const HubProvider: React.FC<PropsWithChildren<unknown>> = ({ children }) => {
   const contextValue: HubContextValues = useMemo(() => {
     return {
       hubConnection: socketState,
-      requestedPaymentsCount,
-      unreadMessagesCount,
-      unreadNotificationsCount,
+      unreadNotifications,
     };
   }, [
     socketState,
-    requestedPaymentsCount,
-    unreadMessagesCount,
-    unreadNotificationsCount,
+    unreadNotifications,
   ]);
 
   return (

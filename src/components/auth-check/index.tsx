@@ -13,8 +13,6 @@ const AuthCheck: React.FC = () => {
   const { data: typedData, status } = useTypedSession();
   const signInError = typedData?.signInError;
   const pathName = usePathname();
-  console.log(typedData, status);
-
   // const [getAccountInfo, { data: userData }] =
   //   chefApi.useLazyGetCurrentAccountInfoQuery();
 
