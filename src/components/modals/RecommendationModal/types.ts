@@ -1,4 +1,4 @@
-import { RecommendationDto } from '@/dto';
+import { RecommendationDto } from "core/api/baseApi";
 
 export interface IRecommendationModalProps {
   recommendation: RecommendationDto;

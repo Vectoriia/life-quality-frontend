@@ -10,7 +10,7 @@ export interface NotificationsState {
 }
 
 const initialState: NotificationsState = {
-  allowNotifications: false,
+  allowNotifications: true,
   isInitialized: false,
   nextPageToken: null,
   notifications: [],
@@ -38,6 +38,7 @@ export const notificationsSlice = createSlice({
     },
 
     setNotifications: (state, action: PayloadAction<NotificationDto[]>) => {
+      console.log('here')
       state.notifications = action.payload;
       state.isInitialized = true;
     },
@@ -55,14 +56,6 @@ export const notificationsSlice = createSlice({
         action.payload,
       );
     },
-
-    readNotification: (state, action: PayloadAction<number>) => {
-      const notification = state.notifications.find(
-        (n) => action.payload === n.id,
-      );
-
-      if (notification) notification.isRead = true;
-    },
   },
 });
 
@@ -72,7 +65,6 @@ export const {
   setNotifications,
   addNewToNotifications,
   addMultipleToNotifications,
-  readNotification,
 } = notificationsSlice.actions;
 
 const notificationsReducer = notificationsSlice.reducer;

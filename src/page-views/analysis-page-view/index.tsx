@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useGetBloodAnalysisByIdQuery } from 'core/api/baseApi';
 import Image from 'next/image';
 import analysis from '@/public/images/analysis.png';
+import useTypedSession from '@/hooks/use-typed-session';
 
 interface Props {
   analysisId: number;
@@ -20,6 +21,7 @@ const AnalysisPageView: React.FC<Props> = ({
   analysisId,
 }) => {
   const [openModal, setOpenModal] = useState(false);
+  const { data: sessionData } = useTypedSession();
 
   const { data } = useGetBloodAnalysisByIdQuery({
     id: analysisId,
@@ -51,11 +53,12 @@ const AnalysisPageView: React.FC<Props> = ({
               {data.status !== undefined && AnalysisStatus[data.status]}
             </Typography>
           </div>
-          <div className="flex items-end">
+          {(sessionData.userData.role as number) == 0 && (<div className="flex items-end">
             <Button variant="outlined" className="" onClick={() => setOpenModal(true)}>
               Написати рекомендацію
             </Button>
           </div>
+          )}
         </div>
         <div className="mb-6">
           <Typography variant="h5" className="mb-2">

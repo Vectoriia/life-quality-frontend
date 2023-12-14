@@ -5,8 +5,7 @@ import PatientProfileView from "@/page-views/patient-profile-view";
 
 const PatientPage: React.FC = () => {
     const { data, status } = useTypedSession();
-
-    if (data.user.role === 1) return <PatientProfileView />;
+    if ((data.userData.role as number) == 1) return <PatientProfileView />;
 
     return (
         <DoctorProfileView />

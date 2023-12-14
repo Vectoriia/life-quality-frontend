@@ -7,12 +7,14 @@ import { MdRecommend } from 'react-icons/md';
 import { TbAnalyzeFilled } from 'react-icons/tb';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import Link from 'next/link';
+import useAppSelector from '@/hooks/use-app-selector';
 
 export default function NotificationPopup({
   redirectUrl,
 }: {
   redirectUrl: string;
 }) {
+  const { notifications } = useAppSelector((state) => state.notifications)
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,11 +27,7 @@ export default function NotificationPopup({
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  const messages = [
-    { id: 0, title: 'You have new analysis!', notificationType: 1 },
-    { id: 1, title: 'You have new recommendation!', notificationType: 0 },
-    { id: 2, title: 'You have new analysis!', notificationType: 1 },
-  ];
+
   return (
     <>
       <Button
@@ -52,20 +50,20 @@ export default function NotificationPopup({
         style={{ marginTop: '7px' }}
       >
         <div className="p-4 space-y-4">
-          {messages.map((message) => (
+          {notifications.map((notification) => (
             <Link
-              key={message.id}
+              key={notification.id}
               href={redirectUrl}
               className="no-underline text-black hover:text-black flex items-center gap-4"
             >
-              {message.notificationType === 1 ? (
+              {notification.notificationType === 1 ? (
                 <TbAnalyzeFilled size={24} className="shrink-0" />
               ) : (
                 <MdRecommend size={24} className="shrink-0" />
               )}
               <div className="flex flex-col justify-center gap-1">
                 <h5 className="m-0">New message:</h5>
-                <p className="m-0">{message.title}</p>
+                <p className="m-0">{notification.title}</p>
               </div>
             </Link>
           ))}

@@ -47,8 +47,6 @@ const Drawer: React.FC<Props> = ({
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 
-  console.log(isSmallScreen);
-
   const items: DrawerItem[] = useMemo(() => {
     return DrawerItems.map((item) => {
       return {

@@ -8,6 +8,7 @@ import type { IRecommendationModalProps } from './types';
 import { FaUserDoctor } from 'react-icons/fa6';
 
 import { format } from 'date-fns';
+import dayjs from 'dayjs';
 
 const RecommendationModal = ({
   recommendation,
@@ -24,11 +25,11 @@ const RecommendationModal = ({
         </Typography>
         <Typography>
           Дата та час отримання:{' '}
-          {format(recommendation.createDate, 'dd.MM.yyyy HH:mm')}
+          {dayjs(recommendation.receivedAt).format('DD.MM.YYYY HH:mm')}
         </Typography>
         <div className="flex flex-col gap-1 items-start">
           <Typography variant="h5">Детальний опис:</Typography>
-          <Typography>{recommendation.details}</Typography>
+          <Typography>{recommendation.message}</Typography>
         </div>
       </div>
     </BaseModal>

@@ -10,6 +10,8 @@ import { PatientStatus } from '@/enums';
 import { CreateAnalysModal } from '@/components';
 import { useState } from 'react';
 import dayjs from 'dayjs';
+import { FaArrowRight } from 'react-icons/fa';
+import Link from 'next/link';
 interface Props {
   patientId: number;
 }
@@ -73,6 +75,9 @@ const PatientPageView: React.FC<Props> = ({
               {analysis.isRegular ? 'Регулярний запит' : 'Одноразовий запит'}
             </Typography>
             {getAnalysisStatusIcon(analysis.status, 28)}
+            <Link href={`/analysis/${analysis.id as number}`}>
+              <FaArrowRight />
+            </Link>
           </div>
         ))}
       </div>
